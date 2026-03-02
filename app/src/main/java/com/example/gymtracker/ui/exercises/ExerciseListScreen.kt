@@ -261,7 +261,7 @@ private fun ExerciseCard(
                         Text(
                             text = " · hace $days día${if (days != 1L) "s" else ""}",
                             color = color.copy(alpha = 0.8f),
-                            fontSize = 12.sp
+                            fontSize = 10.sp
                         )
                     }
                 }
