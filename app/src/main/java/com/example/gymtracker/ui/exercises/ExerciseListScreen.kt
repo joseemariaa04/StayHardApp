@@ -140,7 +140,7 @@ fun ExerciseListScreen(
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = PaddingValues(vertical = 16.dp)
+                contentPadding = PaddingValues(top = 16.dp, start = 0.dp, end = 0.dp, bottom = 80.dp)
             ) {
                 items(exercises, key = { it.id }) { exercise ->
                     ExerciseCard(

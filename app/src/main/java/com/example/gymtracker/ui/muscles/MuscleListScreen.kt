@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.MonitorWeight
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
@@ -61,6 +62,7 @@ import com.google.accompanist.drawablepainter.rememberDrawablePainter
 @Composable
 fun MuscleListScreen(
     onMuscleClick: (Muscle) -> Unit,
+    onWeightClick: () -> Unit,
     muscleViewModel: MuscleViewModel = viewModel()
 ) {
     val muscles by muscleViewModel.muscles.collectAsStateWithLifecycle()
@@ -92,6 +94,14 @@ fun MuscleListScreen(
                         )
                     }
 
+                },
+                actions = {
+                    IconButton(onClick = onWeightClick) {
+                        Icon(
+                            imageVector = Icons.Default.MonitorWeight,
+                            contentDescription = "Seguimiento de peso"
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface
@@ -142,7 +152,7 @@ fun MuscleListScreen(
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(10.dp),
-                contentPadding = PaddingValues(vertical = 16.dp)
+                contentPadding = PaddingValues(top = 16.dp, start = 0.dp, end = 0.dp, bottom = 80.dp)
             ) {
                 items(muscles, key = { it.id }) { muscle ->
                     MuscleCard(

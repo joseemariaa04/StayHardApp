@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import com.example.gymtracker.ui.exercises.ExerciseListScreen
 import com.example.gymtracker.ui.muscles.MuscleListScreen
 import com.example.gymtracker.ui.theme.GymTrackerTheme
+import com.example.gymtracker.ui.weight.WeightScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +39,9 @@ fun GymTrackerApp() {
             MuscleListScreen(
                 onMuscleClick = { muscle ->
                     navController.navigate("exercises/${muscle.id}/${muscle.name}")
+                },
+                onWeightClick = {
+                    navController.navigate("weight")
                 }
             )
         }
@@ -54,6 +58,12 @@ fun GymTrackerApp() {
             ExerciseListScreen(
                 muscleId = muscleId,
                 muscleName = muscleName,
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable("weight") {
+            WeightScreen(
                 onBack = { navController.popBackStack() }
             )
         }
