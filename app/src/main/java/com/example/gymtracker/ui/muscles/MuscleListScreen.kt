@@ -22,6 +22,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.MonitorWeight
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
@@ -63,6 +64,7 @@ import com.google.accompanist.drawablepainter.rememberDrawablePainter
 fun MuscleListScreen(
     onMuscleClick: (Muscle) -> Unit,
     onWeightClick: () -> Unit,
+    onSettingsClick: () -> Unit,
     muscleViewModel: MuscleViewModel = viewModel()
 ) {
     val muscles by muscleViewModel.muscles.collectAsStateWithLifecycle()
@@ -82,14 +84,15 @@ fun MuscleListScreen(
                                 drawable = LocalContext.current.packageManager
                                     .getApplicationIcon(LocalContext.current.packageName)
                             ),
-                            contentDescription = ""
+                            contentDescription = "",
+                            modifier = Modifier.size(32.dp)
                         )
                         Text(
                             text = "S T A Y H A R D",
                             fontWeight = FontWeight.Bold,
-                            fontSize = 22.sp,
+                            fontSize = 20.sp,
                             fontFamily = FontFamily.Monospace,
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.weight(1f),
                             textAlign = TextAlign.Center
                         )
                     }
@@ -100,6 +103,12 @@ fun MuscleListScreen(
                         Icon(
                             imageVector = Icons.Default.MonitorWeight,
                             contentDescription = "Seguimiento de peso"
+                        )
+                    }
+                    IconButton(onClick = onSettingsClick) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = "Configuración"
                         )
                     }
                 },

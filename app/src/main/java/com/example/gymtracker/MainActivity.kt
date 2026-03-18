@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.gymtracker.ui.exercises.ExerciseListScreen
 import com.example.gymtracker.ui.muscles.MuscleListScreen
+import com.example.gymtracker.ui.settings.SettingsScreen
 import com.example.gymtracker.ui.theme.GymTrackerTheme
 import com.example.gymtracker.ui.weight.WeightScreen
 
@@ -42,6 +43,9 @@ fun GymTrackerApp() {
                 },
                 onWeightClick = {
                     navController.navigate("weight")
+                },
+                onSettingsClick = {
+                    navController.navigate("settings")
                 }
             )
         }
@@ -64,6 +68,12 @@ fun GymTrackerApp() {
 
         composable("weight") {
             WeightScreen(
+                onBack = { navController.popBackStack() }
+            )
+        }
+
+        composable("settings") {
+            SettingsScreen(
                 onBack = { navController.popBackStack() }
             )
         }

@@ -54,6 +54,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.gymtracker.data.entities.Exercise
 import com.example.gymtracker.ui.muscles.TextoPropietario
 import com.example.gymtracker.viewmodel.ExerciseViewModel
+import com.example.gymtracker.viewmodel.SettingsViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -68,9 +69,9 @@ private fun daysSince(dateStr: String): Long {
     }
 }
 
-private fun statusColor(days: Long): Color = when {
-    days >= 20 -> Color(0xFFEF5350)  // red
-    days >= 10 -> Color(0xFFFFCA28)  // yellow
+private fun statusColor(days: Long, yellowThreshold: Int, redThreshold: Int): Color = when {
+    days >= redThreshold -> Color(0xFFEF5350)  // red
+    days >= yellowThreshold -> Color(0xFFFFCA28)  // yellow
     else       -> Color(0xFF66BB6A)  // green
 }
 
@@ -82,13 +83,16 @@ fun ExerciseListScreen(
     muscleId: Long,
     muscleName: String,
     onBack: () -> Unit,
-    exerciseViewModel: ExerciseViewModel = viewModel()
+    exerciseViewModel: ExerciseViewModel = viewModel(),
+    settingsViewModel: SettingsViewModel = viewModel()
 ) {
     LaunchedEffect(muscleId) {
         exerciseViewModel.setMuscleId(muscleId)
     }
 
     val exercises by exerciseViewModel.exercises.collectAsStateWithLifecycle()
+    val yellowThreshold by settingsViewModel.yellowThreshold.collectAsStateWithLifecycle()
+    val redThreshold by settingsViewModel.redThreshold.collectAsStateWithLifecycle()
     var showAddDialog by remember { mutableStateOf(false) }
 
     Scaffold(
@@ -145,6 +149,8 @@ fun ExerciseListScreen(
                 items(exercises, key = { it.id }) { exercise ->
                     ExerciseCard(
                         exercise = exercise,
+                        yellowThreshold = yellowThreshold,
+                        redThreshold = redThreshold,
                         onUpdate = { w, r -> exerciseViewModel.updateExercise(exercise, w, r) },
                         onDelete = { exerciseViewModel.deleteExercise(exercise) }
                     )
@@ -169,11 +175,13 @@ fun ExerciseListScreen(
 @Composable
 private fun ExerciseCard(
     exercise: Exercise,
+    yellowThreshold: Int,
+    redThreshold: Int,
     onUpdate: (Float, Int) -> Unit,
     onDelete: () -> Unit
 ) {
     val days = daysSince(exercise.lastModifiedDate)
-    val color = statusColor(days)
+    val color = statusColor(days, yellowThreshold, redThreshold)
     var showEditDialog by remember { mutableStateOf(false) }
     var showDeleteConfirm by remember { mutableStateOf(false) }
 
